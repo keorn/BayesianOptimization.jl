@@ -71,7 +71,7 @@ Args:
 Returns:
 - `BayesOpt`: a new `BayesOpt` instance.
 """
-function BayesOpt{T<:AbstractArray}(f::Function, bounds::T..., X::Array{Float64,2}, y::Array{Float64,1}; noise=-1e8)
+function BayesOpt{T<:AbstractArray}(f::Function, bounds::T, X::Array{Float64,2}, y::Array{Float64,1}; noise=-1e8)
     # return our new BayesOpt instance with these reasonable defaults
     # NOTE: see https://github.com/STOR-i/GaussianProcesses.jl for our
     # Gaussian Process arguments.
@@ -91,7 +91,7 @@ Args:
 Returns:
 - `BayesOpt`: a new `BayesOpt` instance.
 """
-function BayesOpt{T<:AbstractArray}(f::Function, bounds::T; noise=-1e8)
+function BayesOpt{T<:AbstractArray}(f::Function, bounds...::T; noise=-1e8)
     # Initialize our parameters matrix
     X = Array{Float64}(length(bounds), 1)
 
@@ -106,7 +106,7 @@ function BayesOpt{T<:AbstractArray}(f::Function, bounds::T; noise=-1e8)
     X[:,1] = xmax
     y[1] = ymax
 
-    BayesOpt(f, bounds, X, y; noise = noise)
+    BayesOpt(f, collect(bounds), X, y; noise = noise)
 end
 
 """
